@@ -1,0 +1,22 @@
+# E-Commerce and Products Implementation Tasks
+
+- `[x]` Phase 1: Cleanup & Navigation Update
+  - `[x]` Delete industries pages under `src/app/industries`
+  - `[x]` Modify `src/components/navbar/Navbar.tsx` to replace Industries with Products
+  - `[x]` Modify `src/components/footer/Footer.tsx` to replace Industries with Products
+  - `[x]` Modify `src/app/query/page.tsx` to update FAQ references
+- `[x]` Phase 2: Data Modeling
+  - `[x]` Create `src/data/products.ts` with structured mock product data
+- `[x]` Phase 3: E-Commerce State Management (Cart & Wishlist)
+  - `[x]` Create `src/context/CartContext.tsx`
+  - `[x]` Modify `src/app/layout.tsx` to wrap App with `CartProvider`
+- `[x]` Phase 4: Product Listing & Detail Views
+  - `[x]` Create `src/app/products/page.tsx` (product listing with filters & search)
+  - `[x]` Create `src/app/products/[slug]/page.tsx` (product details, reviews, gallery)
+- `[x]` Phase 5: Cart, Checkout & Payment Simulation
+  - `[x]` Create `src/app/cart/page.tsx`
+  - `[x]` Create `src/app/checkout/page.tsx` (checkout wizard with simulated Razorpay payment)
+- `[x]` Phase 6: Digital Downloads Management
+  - `[x]` Create `src/app/downloads/page.tsx` (secure digital download list)
+- `[/]` Verification & Polish
+  - `[/]` Run build checklist and verify all pages build and load successfully

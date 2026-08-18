@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@store/*": ["./Appriqa_Store/src/*"]
     }
   },
   "include": [
