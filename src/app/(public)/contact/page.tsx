@@ -13,7 +13,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DURATION, EASE, VARIANTS } from "@/lib/motion";
 import { submitContact, submitQuery } from "@/app/actions";
-import { MapPin, Phone, Mail, Clock, CheckCircle2, HelpCircle, MessageSquare, Youtube, Twitter, Instagram } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, CheckCircle2, HelpCircle, MessageSquare } from "lucide-react";
 import { Editable } from "@/components/Editable";
 
 // ─── Schemas ─────────────────────────────────────────────────
