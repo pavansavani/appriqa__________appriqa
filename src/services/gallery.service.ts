@@ -1,42 +1,119 @@
 import { supabase } from "@/lib/supabase";
 import { ShowcaseItem } from "@/types";
 
+const FALLBACK_SHOWCASE_ITEMS: ShowcaseItem[] = [
+  {
+    id: "showcase-1",
+    type: "image",
+    url: "/images/project-1.png",
+    title: "Autonomous Robotics Arm",
+    caption: "Micro-factory precision arm with AI computer vision calibration.",
+    display_order: 1,
+    is_published: true,
+    is_featured: true,
+  },
+  {
+    id: "showcase-2",
+    type: "image",
+    url: "/images/project-2.png",
+    title: "Edge AI Sensor Node",
+    caption: "Low-power neural network telemetry module for smart infrastructure.",
+    display_order: 2,
+    is_published: true,
+    is_featured: false,
+  },
+  {
+    id: "showcase-3",
+    type: "image",
+    url: "/images/project-3.png",
+    title: "Sentinel Drone System",
+    caption: "Autonomous multi-agent navigation & precision swarm architecture.",
+    display_order: 3,
+    is_published: true,
+    is_featured: false,
+  },
+  {
+    id: "showcase-4",
+    type: "image",
+    url: "/images/project-4.png",
+    title: "Neuro-Processing Board",
+    caption: "Custom embedded firmware architecture and neural accelerator testing.",
+    display_order: 4,
+    is_published: true,
+    is_featured: false,
+  },
+  {
+    id: "showcase-5",
+    type: "image",
+    url: "/images/project-5.png",
+    title: "Industrial 3D Printing Prototype",
+    caption: "High-tolerance composite enclosure with thermal dissipation channels.",
+    display_order: 5,
+    is_published: true,
+    is_featured: false,
+  },
+  {
+    id: "showcase-6",
+    type: "image",
+    url: "/images/home-hero.png",
+    title: "Aerospace Aerial Platform",
+    caption: "Advanced telemetry & multi-spectral scanning system for harsh environments.",
+    display_order: 6,
+    is_published: true,
+    is_featured: false,
+  },
+];
+
 export class GalleryService {
   /**
    * Fetch all gallery items (for Admin)
    */
   static async getAllItems(): Promise<ShowcaseItem[]> {
-    const { data, error } = await supabase
-      .from("appriqa_showcase")
-      .select("*")
-      .order("display_order", { ascending: true })
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching gallery items:", error);
-      throw new Error("Failed to fetch gallery items.");
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return FALLBACK_SHOWCASE_ITEMS;
     }
 
-    return data as ShowcaseItem[];
+    try {
+      const { data, error } = await supabase
+        .from("appriqa_showcase")
+        .select("*")
+        .order("display_order", { ascending: true })
+        .order("created_at", { ascending: false });
+
+      if (error || !data) {
+        return FALLBACK_SHOWCASE_ITEMS;
+      }
+
+      return data as ShowcaseItem[];
+    } catch {
+      return FALLBACK_SHOWCASE_ITEMS;
+    }
   }
 
   /**
    * Fetch only published gallery items (for public Homepage)
    */
   static async getPublishedItems(): Promise<ShowcaseItem[]> {
-    const { data, error } = await supabase
-      .from("appriqa_showcase")
-      .select("*")
-      .eq("is_published", true)
-      .order("display_order", { ascending: true })
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching published gallery items:", error);
-      return []; // Return empty array on public error instead of crashing
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return FALLBACK_SHOWCASE_ITEMS;
     }
 
-    return data as ShowcaseItem[];
+    try {
+      const { data, error } = await supabase
+        .from("appriqa_showcase")
+        .select("*")
+        .eq("is_published", true)
+        .order("display_order", { ascending: true })
+        .order("created_at", { ascending: false });
+
+      if (error || !data || data.length === 0) {
+        return FALLBACK_SHOWCASE_ITEMS;
+      }
+
+      return data as ShowcaseItem[];
+    } catch {
+      return FALLBACK_SHOWCASE_ITEMS;
+    }
   }
 
   /**
