@@ -166,6 +166,7 @@ export default function NewProductPage() {
                 />
               </div>
           </div>
+          </div>{/* end lg:col-span-2 */}
 
           <div className="space-y-6">
             {/* Pricing & Inventory */}
