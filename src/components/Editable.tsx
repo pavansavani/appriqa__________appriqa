@@ -49,7 +49,7 @@ export function Editable({
     if (type === 'image' && displayMediaUrl) {
       // Create a cloned image element with the new src if a media URL exists
       if (React.isValidElement(defaultContent)) {
-        return React.cloneElement(defaultContent as React.ReactElement, { src: displayMediaUrl });
+        return React.cloneElement(defaultContent as React.ReactElement, { src: displayMediaUrl } as any);
       }
       return <img src={displayMediaUrl} alt={altText} className={className} />;
     }
@@ -70,7 +70,7 @@ export function Editable({
     if (type === 'image') {
       if (displayMediaUrl) {
         if (React.isValidElement(defaultContent)) {
-          return React.cloneElement(defaultContent as React.ReactElement, { src: displayMediaUrl });
+          return React.cloneElement(defaultContent as React.ReactElement, { src: displayMediaUrl } as any);
         }
         return <img src={displayMediaUrl} alt={altText} className={className} />;
       }

@@ -25,6 +25,7 @@ export default function NewProductPage() {
     best_seller: false,
     new_arrival: false,
     featured_image: "",
+    thumbnail_url: "",
     brand: "",
     stock: "",
   });

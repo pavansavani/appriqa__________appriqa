@@ -143,7 +143,7 @@ export async function POST(request: Request) {
       // If the row didn't exist yet, insert it manually just in case
       await supabaseServer.from("profiles").insert({
         auth_user_id: newUserId,
-        email: inviteData.user.email,
+        email: inviteData.user?.email ?? email,
         full_name: name,
         first_name: name.split(" ")[0],
         last_name: name.split(" ").slice(1).join(" "),
@@ -151,7 +151,7 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json({ success: true, user: inviteData.user, invited: true }, { status: 201 });
+    return NextResponse.json({ success: true, user: inviteData.user ?? { email }, invited: true }, { status: 201 });
   } catch (error: any) {
     console.error("POST Managers Error:", error);
     return NextResponse.json({ error: "Failed to invite/update manager" }, { status: 500 });
