@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase-server";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const { data, error } = await supabaseServer
       .from("products")
       .select("*")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (error) throw error;
@@ -17,7 +18,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const authHeader = request.headers.get("Authorization");
     if (!authHeader) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -34,7 +36,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const { data, error } = await supabaseServer
       .from("products")
       .update(body)
-      .eq("id", params.id)
+      .eq("id", id)
       .select()
       .single();
 
@@ -47,7 +49,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const authHeader = request.headers.get("Authorization");
     if (!authHeader) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -60,7 +63,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     const { error } = await supabaseServer
       .from("products")
       .update({ status: 'archived' })
-      .eq("id", params.id);
+      .eq("id", id);
 
     if (error) throw error;
 

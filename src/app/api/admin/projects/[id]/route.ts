@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase-server";
 import { revalidatePath } from "next/cache";
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const authHeader = request.headers.get("Authorization");
     if (!authHeader) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -17,7 +18,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const { data, error } = await supabaseServer
       .from("projects")
       .update(body)
-      .eq("id", params.id)
+      .eq("id", id)
       .select()
       .single();
 
@@ -33,7 +34,8 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const authHeader = request.headers.get("Authorization");
     if (!authHeader) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -45,13 +47,13 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     const { data, error: fetchError } = await supabaseServer
       .from("projects")
       .select("slug")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     const { error } = await supabaseServer
       .from("projects")
       .delete()
-      .eq("id", params.id);
+      .eq("id", id);
 
     if (error) throw error;
     

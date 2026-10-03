@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase-server";
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const authHeader = request.headers.get("Authorization");
     if (!authHeader) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -15,7 +16,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const { data, error } = await supabaseServer
       .from("profiles")
       .update({ status: body.status }) // Allow activating/banning
-      .eq("id", params.id)
+      .eq("id", id)
       .select()
       .single();
 
